@@ -28,7 +28,6 @@ SkillBridge is a community platform where **mentors** list their skills and **le
 - Next.js 15 (App Router)
 - TypeScript
 - Tailwind CSS + shadcn/ui
-- Zustand
 
 **Backend**
 - Django + Django REST Framework
