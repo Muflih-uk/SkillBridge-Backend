@@ -164,15 +164,6 @@ user_profiles ──── mentor_profiles    (1-to-1 extended mentor info)
 - Set environment variables
 - Vercel deploys automatically on push, with preview URLs per PR
 
----
-
-## Roadmap
-
-- [ ] Reviews and ratings
-- [ ] AI skill recommendation engine
-- [ ] AI mentor profile summary generator
-- [ ] Community feed
-- [ ] Mobile app (Flutter)
 
 ---
 
