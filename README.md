@@ -50,10 +50,7 @@ skillbridge/
 │   ├── apps/
 │   │   ├── users/
 │   │   ├── skills/
-│   │   ├── mentors/
-│   │   ├── learning_paths/
-│   │   ├── matching/
-│   │   └── chat/
+│   │   ├── mentorship/
 │   ├── config/
 │   └── requirements.txt
 │
