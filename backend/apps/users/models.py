@@ -15,6 +15,11 @@ class UserProfile(models.Model):
     bio = models.TextField(blank=True, null=True)
     avatar_url = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default="learner",
+    )
 
     def __str__(self):
         return self.display_name
