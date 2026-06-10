@@ -1,12 +1,19 @@
-import jwt
+# authentication.py
+
 from django.conf import settings
-from rest_framework import authentication
+from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
+from supabase import create_client
 
 from apps.users.models import UserProfile
 
+supabase = create_client(
+    settings.SUPABASE_URL,
+    settings.SUPABASE_ANON_KEY,
+)
 
-class SupabaseJWTAuthentication(authentication.BaseAuthentication):
+
+class SupabaseJWTAuthentication(BaseAuthentication):
     def authenticate(self, request):
         auth_header = request.headers.get("Authorization")
 
@@ -15,29 +22,15 @@ class SupabaseJWTAuthentication(authentication.BaseAuthentication):
 
         try:
             token = auth_header.split(" ")[1]
-        except IndexError:
-            raise AuthenticationFailed("Token prefix missing")
 
-        try:
-            payload = jwt.decode(
-                token,
-                settings.SUPABASE_JWT_SECRET,
-                algorithms=["HS256"],
-                audience="authenticated",
-            )
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Token has expired")
-        except jwt.InvalidTokenError:
+            user_response = supabase.auth.get_user(token)
+
+            if not user_response.user:
+                raise AuthenticationFailed("Invalid token")
+
+            user = UserProfile.objects.get(id=user_response.user.id)
+
+            return (user, token)
+
+        except Exception:
             raise AuthenticationFailed("Invalid token")
-
-        user_id = payload.get("sub")
-
-        if not user_id:
-            raise AuthenticationFailed("User ID not found in JWT")
-
-        try:
-            user = UserProfile.objects.get(id=user_id)
-        except UserProfile.DoesNotExist:
-            raise AuthenticationFailed("User profile not found in database")
-
-        return (user, token)

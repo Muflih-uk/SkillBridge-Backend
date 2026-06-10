@@ -1,11 +1,12 @@
 from django.conf import settings
-from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework import generics, status
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from supabase import Client, create_client
 
 from .models import UserProfile
+from .serializers import UserProfileSerializer
 
 supabase: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_ANON_KEY)
 
@@ -85,3 +86,11 @@ class LoginUserView(APIView):
                 {"error": "Invalid credentials or user does not exist."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+
+
+class CurrentUserProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
