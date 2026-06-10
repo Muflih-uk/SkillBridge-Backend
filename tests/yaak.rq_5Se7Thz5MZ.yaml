@@ -1,0 +1,41 @@
+type: http_request
+model: http_request
+id: rq_5Se7Thz5MZ
+createdAt: 2026-06-09T05:35:49.346909256
+updatedAt: 2026-06-09T05:42:29.129021031
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_4V4nqYvRrv
+authentication:
+  token: ${[ MENTOR_TOKEN ]}
+authenticationType: bearer
+body:
+  text: |-
+    {
+      "display_name": "Muflih UK",
+      "bio": "Django Developer",
+      "mentor_profile": {
+        "experience_yrs": 2,
+        "availability": "8hrs/week",
+        "linkedin_url": "https://linkedin.com/in/arun-django-dev"
+      }
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Authorization
+  value: ''
+  id: Iav2d7Bdxq
+- enabled: true
+  name: ''
+  value: ''
+  id: FUa07Jjay3
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: UH35RxMjm9
+method: PATCH
+name: Update Profile
+sortPriority: 0.0019
+url: ${[ BASE_URL ]}/users/profile/
+urlParameters: []

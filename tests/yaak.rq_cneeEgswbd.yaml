@@ -1,0 +1,19 @@
+type: http_request
+model: http_request
+id: rq_cneeEgswbd
+createdAt: 2026-06-09T05:48:09.227456181
+updatedAt: 2026-06-09T05:49:41.358832381
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_WXtonVVfHA
+authentication:
+  token: ${[ MENTOR_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: list
+sortPriority: 0.0017
+url: ${[ BASE_URL ]}/mentorship/requests/
+urlParameters: []

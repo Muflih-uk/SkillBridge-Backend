@@ -1,0 +1,46 @@
+type: http_request
+model: http_request
+id: rq_CF7XfQtz5U
+createdAt: 2026-06-09T05:41:51.929391480
+updatedAt: 2026-06-09T05:42:17.042381643
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_8KzHGsuT8N
+authentication:
+  token: ${[ MENTOR_TOKEN ]}
+authenticationType: bearer
+body:
+  text: |-
+    {
+      "title": "Django Core REST Architectures",
+      "category": "Programming",
+      "level": "Advanced",
+      "description": "Deep-dive covering query optimizations, atomic transactions, and scalable API routing layouts."
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: XAFnehAvkX
+method: POST
+name: Post Skill
+sortPriority: 0.0028
+url: ${[ BASE_URL ]}/skills/
+urlParameters:
+- enabled: true
+  name: search
+  value: Flutter
+  id: TbkeG2gqd8
+- enabled: true
+  name: category
+  value: Programming
+  id: CI7gQcdQTS
+- enabled: true
+  name: level
+  value: Advanced
+  id: jjt2zBTKrR
+- enabled: true
+  name: ''
+  value: ''
+  id: jwiwhXBibC

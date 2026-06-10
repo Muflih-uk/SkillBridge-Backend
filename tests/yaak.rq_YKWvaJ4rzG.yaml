@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_YKWvaJ4rzG
+createdAt: 2026-06-09T06:03:26.961740966
+updatedAt: 2026-06-09T06:11:55.846033056
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_nBnzSQpQSc
+authentication:
+  token: ${[ LEARNER_TOKEN ]}
+authenticationType: bearer
+body:
+  text: |-
+    {
+      "goal": "Become a backend engineer focusing on Django REST framework security patterns"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: shQ8Pairic
+method: POST
+name: Pathway
+sortPriority: 0.0036000000000000003
+url: ${[ BASE_URL ]}/mentorship/ai/generate-path/
+urlParameters: []

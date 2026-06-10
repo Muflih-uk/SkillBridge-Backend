@@ -1,0 +1,29 @@
+type: http_request
+model: http_request
+id: rq_hDyejuibXP
+createdAt: 2026-06-08T17:10:29.162308360
+updatedAt: 2026-06-09T05:52:01.726054205
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_vMhxmaTDsF
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "email": "arun@gmail.com",
+      "password": "password",
+      "role": "learner",
+      "display_name": "Arun"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: uHYQMMMUKh
+method: POST
+name: Register
+sortPriority: 0.0
+url: ${[ BASE_URL ]}/users/auth/register/
+urlParameters: []

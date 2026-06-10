@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_gijJ9QVJP6
+createdAt: 2026-06-09T06:20:31.541689602
+updatedAt: 2026-06-09T06:25:10.479051488
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_nBnzSQpQSc
+authentication:
+  token: ${[ LEARNER_TOKEN ]}
+authenticationType: bearer
+body:
+  text: |-
+    {
+      "goal": "Learn structural REST schema building and production debugging workflows"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: shQ8Pairic
+method: POST
+name: Match
+sortPriority: 0.0046
+url: ${[ BASE_URL ]}/mentorship/ai/match-mentors/
+urlParameters: []

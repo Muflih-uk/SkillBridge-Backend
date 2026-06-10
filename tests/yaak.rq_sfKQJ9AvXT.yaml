@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_sfKQJ9AvXT
+createdAt: 2026-06-08T17:27:16.119613532
+updatedAt: 2026-06-09T05:52:27.516262235
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_vMhxmaTDsF
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+        "email": "arun@gmail.com",
+        "password": "password"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: uHYQMMMUKh
+method: POST
+name: Login
+sortPriority: 0.001
+url: ${[ BASE_URL ]}/users/auth/login/
+urlParameters: []

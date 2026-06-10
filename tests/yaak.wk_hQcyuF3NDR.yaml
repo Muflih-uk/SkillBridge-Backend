@@ -1,0 +1,14 @@
+type: workspace
+model: workspace
+id: wk_hQcyuF3NDR
+createdAt: 2026-04-10T08:03:51.071596355
+updatedAt: 2026-04-10T08:03:51.071597920
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: Test
+encryptionKeyChallenge: null
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0

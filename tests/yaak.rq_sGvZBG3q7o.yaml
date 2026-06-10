@@ -1,0 +1,28 @@
+type: http_request
+model: http_request
+id: rq_sGvZBG3q7o
+createdAt: 2026-06-09T05:50:08.214566595
+updatedAt: 2026-06-09T05:54:01.779088135
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_WXtonVVfHA
+authentication:
+  token: ${[ LEARNER_TOKEN ]}
+authenticationType: bearer
+body:
+  text: |-
+    {
+      "mentor": "3e8a9986-6962-444b-899d-f49e86deae5c",
+      "message": "Hi Arun, I am a CS grad looking to build hands-on experience deploying backend APIs using Django REST framework."
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: yFXEPEaC3H
+method: POST
+name: request
+sortPriority: 0.0027
+url: ${[ BASE_URL ]}/mentorship/requests/
+urlParameters: []

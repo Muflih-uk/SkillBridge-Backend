@@ -1,0 +1,35 @@
+type: http_request
+model: http_request
+id: rq_hN7ZLg8RHL
+createdAt: 2026-06-09T05:38:53.920327952
+updatedAt: 2026-06-09T05:42:53.836722631
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_8KzHGsuT8N
+authentication:
+  token: ${[ MENTOR_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Skills Search
+sortPriority: 0.0018
+url: ${[ BASE_URL ]}/skills/
+urlParameters:
+- enabled: true
+  name: search
+  value: Django
+  id: TbkeG2gqd8
+- enabled: true
+  name: category
+  value: Programming
+  id: CI7gQcdQTS
+- enabled: true
+  name: level
+  value: Advanced
+  id: jjt2zBTKrR
+- enabled: true
+  name: ''
+  value: ''
+  id: xTw4pXVkTD

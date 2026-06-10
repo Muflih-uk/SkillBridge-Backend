@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_jkAN4bL55p
+createdAt: 2026-06-09T03:52:53.142508987
+updatedAt: 2026-06-09T05:36:34.210306455
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_4V4nqYvRrv
+authentication:
+  token: ${[ MENTOR_TOKEN ]}
+authenticationType: bearer
+body: {}
+bodyType: null
+description: ''
+headers:
+- enabled: true
+  name: Authorization
+  value: ''
+  id: Iav2d7Bdxq
+- enabled: true
+  name: ''
+  value: ''
+  id: FUa07Jjay3
+method: GET
+name: Profile
+sortPriority: 0.0009
+url: ${[ BASE_URL ]}/users/profile/
+urlParameters: []

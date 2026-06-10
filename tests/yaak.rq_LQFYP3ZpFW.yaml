@@ -1,0 +1,24 @@
+type: http_request
+model: http_request
+id: rq_LQFYP3ZpFW
+createdAt: 2026-06-09T05:54:04.694923918
+updatedAt: 2026-06-09T05:56:14.021957724
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_WXtonVVfHA
+authentication:
+  token: ${[ MENTOR_TOKEN ]}
+authenticationType: bearer
+body:
+  text: "{\n  \"action\": \"accepted\" \n}"
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: yFXEPEaC3H
+method: PATCH
+name: Request Accept
+sortPriority: 0.0037
+url: ${[ BASE_URL ]}/mentorship/requests/333a1b0b-94aa-4372-b375-b27a355cab09/action/
+urlParameters: []

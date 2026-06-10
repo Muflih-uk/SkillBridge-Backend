@@ -1,0 +1,24 @@
+type: http_request
+model: http_request
+id: rq_brt9vRGRHi
+createdAt: 2026-06-09T06:25:03.057556891
+updatedAt: 2026-06-09T06:26:17.079427871
+workspaceId: wk_hQcyuF3NDR
+folderId: fl_nBnzSQpQSc
+authentication:
+  token: ${[ LEARNER_TOKEN ]}
+authenticationType: bearer
+body:
+  text: ''
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: shQ8Pairic
+method: GET
+name: Match Working
+sortPriority: 0.0056
+url: ${[ BASE_URL ]}/mentorship/ai/match-results/cf564641-2ced-4ce5-8c12-36a8ef4813b5/
+urlParameters: []
