@@ -5,6 +5,9 @@ from celery import shared_task
 from django.conf import settings
 from google import genai
 
+from apps.skills.models import Skill
+from apps.users.models import MentorProfile, UserProfile
+
 from .models import AIMatchResult, LearningPath
 
 logger = logging.getLogger(__name__)
@@ -156,3 +159,40 @@ def generate_ai_mentor_matches_task(
         )
 
         raise
+
+
+@shared_task
+def generate_mentor_summary_task(mentor_id_str):
+    try:
+        user_profile = UserProfile.objects.get(id=mentor_id_str)
+        mentor_profile = MentorProfile.objects.get(id=user_profile)
+
+        skills = Skill.objects.filter(mentor=user_profile).values_list(
+            "title", flat=True
+        )
+        skills_csv = (
+            ", ".join(list(skills)) if skills else "No specific skills cataloged yet"
+        )
+
+        prompt = (
+            f"Act as an expert technical recruiter. Generate a concise, high-impact, professional "
+            f"one-sentence biography summary (maximum 30 words) for a mentor profile. "
+            f"Base it exactly on this data:\n"
+            f"- Display Name: {user_profile.display_name}\n"
+            f"- Core Bio: {user_profile.bio or 'Experienced professional'}\n"
+            f"- Years of Experience: {mentor_profile.experience_yrs} years\n"
+            f"- Key Skills/Expertise: {skills_csv}\n"
+            f"Return ONLY the raw summary sentence. Do not include quotes, wrappers, or introductory phrases."
+        )
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-lite",
+            contents=prompt,
+        )
+
+        cleaned_summary = response.text.strip().replace('"', "")
+        mentor_profile.ai_summary = cleaned_summary
+        mentor_profile.save()
+
+    except Exception as e:
+        print(f"Failed to compile AI summary for mentor {mentor_id_str}: {str(e)}")
