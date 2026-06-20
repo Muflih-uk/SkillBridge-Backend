@@ -1,7 +1,6 @@
 import json
 import logging
 
-from celery import shared_task
 from django.conf import settings
 from google import genai
 
@@ -33,14 +32,7 @@ def extract_json(text: str):
     return json.loads(text.strip())
 
 
-@shared_task(
-    bind=True,
-    autoretry_for=(Exception,),
-    retry_backoff=True,
-    retry_backoff_max=300,
-    retry_kwargs={"max_retries": 5},
-)
-def generate_learning_path_task(self, path_id, goal):
+def generate_learning_path(path_id, goal):
     try:
         prompt = f"""
         Act as a professional technical mentor.
@@ -91,23 +83,10 @@ def generate_learning_path_task(self, path_id, goal):
             path_id,
             str(e),
         )
-
         raise
 
 
-@shared_task(
-    bind=True,
-    autoretry_for=(Exception,),
-    retry_backoff=True,
-    retry_backoff_max=300,
-    retry_kwargs={"max_retries": 5},
-)
-def generate_ai_mentor_matches_task(
-    self,
-    result_id,
-    goal,
-    structural_mentors_list,
-):
+def generate_ai_mentor_matches(result_id, structural_mentors_list, goal):
     try:
         prompt = f"""
         Compare this learner goal:
@@ -157,12 +136,10 @@ def generate_ai_mentor_matches_task(
             result_id,
             str(e),
         )
-
         raise
 
 
-@shared_task
-def generate_mentor_summary_task(mentor_id_str):
+def generate_mentor_summary(mentor_id_str):
     try:
         user_profile = UserProfile.objects.get(id=mentor_id_str)
         mentor_profile = MentorProfile.objects.get(id=user_profile)
@@ -195,4 +172,9 @@ def generate_mentor_summary_task(mentor_id_str):
         mentor_profile.save()
 
     except Exception as e:
-        print(f"Failed to compile AI summary for mentor {mentor_id_str}: {str(e)}")
+        logger.exception(
+            "Failed to compile AI summary for mentor %s: %s",
+            mentor_id_str,
+            str(e),
+        )
+        raise
