@@ -15,7 +15,7 @@ from .serializers import (
     LearningPathSerializer,
     MentorshipRequestSerializer,
 )
-from .tasks import generate_ai_mentor_matches_task, generate_learning_path_task
+from .tasks import generate_ai_mentor_matches, generate_learning_path
 
 
 class MentorshipRequestListCreateView(generics.ListCreateAPIView):
@@ -48,7 +48,7 @@ class MentorshipRequestActionView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        action = request.data.get("action")  # "accepted" or "rejected"
+        action = request.data.get("action")
         if action not in ["accepted", "rejected"]:
             return Response(
                 {"error": "Invalid action. Must be 'accepted' or 'rejected'."},
@@ -78,17 +78,22 @@ class TriggerLearningPathView(APIView):
             user=request.user,
             goal=goal,
             title="Processing via AI...",
-            content={"status": "queued"},
+            content={},
         )
 
-        generate_learning_path_task.delay(pathway.id, goal)
+        try:
+            generate_learning_path(pathway.id, goal)
+        except Exception:
+            pathway.delete()
+            return Response(
+                {"error": "Failed to generate learning path. Please try again."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
+        pathway.refresh_from_db()
         return Response(
-            {
-                "message": "AI roadmap processing has been offloaded to queue.",
-                "pathway_id": pathway.id,
-            },
-            status=status.HTTP_202_ACCEPTED,
+            LearningPathSerializer(pathway).data,
+            status=status.HTTP_201_CREATED,
         )
 
 
@@ -119,21 +124,23 @@ class AIMentorMatchView(APIView):
         )
         mentors_context_list = list(skills_pool)
 
-        new_match_entry = AIMatchResult.objects.create(
-            learner=request.user, goal=goal, results={"status": "processing"}
+        match_entry = AIMatchResult.objects.create(
+            learner=request.user, goal=goal, results={}
         )
 
-        generate_ai_mentor_matches_task.delay(
-            new_match_entry.id, goal, mentors_context_list
-        )
+        try:
+            generate_ai_mentor_matches(match_entry.id, mentors_context_list, goal)
+        except Exception:
+            match_entry.delete()
+            return Response(
+                {"error": "Failed to match mentors. Please try again."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
+        match_entry.refresh_from_db()
         return Response(
-            {
-                "source": "queued",
-                "message": "Orchestrating background matching evaluation grid.",
-                "match_id": new_match_entry.id,
-            },
-            status=status.HTTP_202_ACCEPTED,
+            {"source": "live", "results": match_entry.results},
+            status=status.HTTP_200_OK,
         )
 
 
@@ -150,15 +157,7 @@ class AIMatchResultDetailView(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-
-        if (
-            isinstance(instance.results, dict)
-            and instance.results.get("status") == "processing"
-        ):
-            return Response(
-                {"source": "queued", "results": []}, status=status.HTTP_200_OK
-            )
-
         return Response(
-            {"source": "cache", "results": instance.results}, status=status.HTTP_200_OK
+            {"source": "cache", "results": instance.results},
+            status=status.HTTP_200_OK,
         )

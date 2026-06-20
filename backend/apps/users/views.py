@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView, PermissionDenied
 from supabase import Client, create_client
 
-from apps.mentorship.tasks import generate_mentor_summary_task
+from apps.mentorship.tasks import generate_mentor_summary
 
 from .models import UserProfile
 from .serializers import UserProfileSerializer
@@ -155,12 +155,19 @@ class TriggerMentorSummaryView(APIView):
                 "Only registered mentors can compute professional summaries."
             )
 
-        generate_mentor_summary_task.delay(str(request.user.id))
+        try:
+            generate_mentor_summary(str(request.user.id))
+        except Exception:
+            return Response(
+                {"error": "Failed to generate summary. Please try again."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
+        profile = request.user.mentorprofile
         return Response(
             {
-                "message": "AI profile optimization task successfully offloaded to queue.",
-                "status": "processing",
+                "message": "AI summary generated successfully.",
+                "ai_summary": profile.ai_summary,
             },
-            status=status.HTTP_202_ACCEPTED,
+            status=status.HTTP_200_OK,  # was 202
         )
